@@ -1,0 +1,27 @@
+.header, .sidebar, .content, .footer {
+    background-color: #f2f2f2;
+}
+.inside {
+    background-color: #fff;
+    margin: 7px;
+    padding: 7px;
+}
+.postBox {
+    background-color: #e7f1f1;
+    padding: 0 10px 0 10px;
+}
+.oddPost{
+    background-color: #e7f1f1;
+}
+.evenPost{
+    background-color: #f1e4db;
+}
+.menu{
+    background-color: #daf3ce;
+    padding: 7px;
+    margin-top: 10px;
+}
+.menu input{
+    width: 95%;
+    margin: 3px 0;
+}
