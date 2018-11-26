@@ -42,7 +42,7 @@ $str = "<table>
         }
         $str .= '</tr>';
 }
-$str .= "<tr><td>profile-pic</td><td><a href= 'http://localhost/_Project/php/09/miniProject/file/" . $fileName . "'>download</a></td></tr>";
+$str .= "<tr><td>profile-pic</td><td><a href= 'http://localhost/_Project/php/09_imp/miniProject/file/" . $fileName . "'>download</a></td></tr>";
 $str .= "</table>";
 
 echo $str;
