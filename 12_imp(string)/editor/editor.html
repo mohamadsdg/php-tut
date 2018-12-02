@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Editor</title>
+    <link rel="stylesheet" href="../../common/pure.css"/>
+    <script src="../../common/jquery.min.js"></script>
+</head>
+<body>
+<form action="edit.php" method="post" id="editorForm" class="pure-form pure-form-stacked">
+    <fieldset>
+        <label for="text">Text :</label>
+        <textarea name="text" id="text" cols="70" rows="5" placeholder="text"></textarea>
+        <input type="button" class="pure-button ebtn" id="pr" value="print">
+        <input type="button" class="pure-button ebtn" id="b" value="b">
+        <input type="button" class="pure-button ebtn" id="i" value="i">
+        <input type="button" class="pure-button ebtn" id="tl" value="aaa">
+        <input type="button" class="pure-button ebtn" id="tu" value="AAA">
+        <input type="button" class="pure-button ebtn" id="uc" value="Aa Aa">
+        <input type="button" class="pure-button ebtn" id="cw" value="countwords">
+        <input type="button" class="pure-button ebtn" id="sw" value="split words">
+    </fieldset>
+</form>
+<div class="results">aa</div>
+<script>
+    $(".ebtn").click(function(e){
+        e.preventDefault();
+        var operand = $(this).attr('id');
+        $('.results').html("<img src='loading.gif'>");
+        $.ajax({
+            type: $("#editorForm").attr("method"),
+            url: $("#editorForm").attr("action"),
+            data: {text:$("#text").val(),op:operand},
+            success: function (response) {
+                $('.results').html(response);
+            }
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -7,6 +7,22 @@ function arrayNicePrint($arr)
     print_r($arr);
     echo '</pre>';
 }
+function e($var, $colorClass = 's')
+{
+    if($var == false){
+        echo "<span class='line {$colorClass}'>";
+        var_dump($var);
+        echo "</span>";
+        return;
+    }
+    if (is_array($var)) {
+        echo '<pre class="line ' . $colorClass . '">';
+        print_r($var);
+        echo "</pre>";
+    } else {
+        echo "<span class='line {$colorClass}'>" . $var . "</span>";
+    }
+}
 
 function printVar($var)
 {
@@ -25,6 +41,15 @@ function printVar($var)
             }
             echo '</div>';
         }
+    }
+    return false;
+}
+
+
+function isValidAjaxRequest()
+{
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        return true;
     }
     return false;
 }
