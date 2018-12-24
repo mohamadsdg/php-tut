@@ -1,6 +1,10 @@
 <?php
 // common php functions
-
+function myPrintR($arr){
+    echo '<pre>';
+    print_r($arr);
+    echo '</pre>';
+}
 function arrayNicePrint($arr)
 {
     echo '<pre>';
