@@ -162,7 +162,8 @@ function sanitize($input) {
             $input = stripslashes($input);
         }
         $input  = cleanInput($input);
-        $output = mysql_real_escape_string($input);
+//        $output = mysql_real_escape_string($input);
+        $output = $input ;
     }
     return $output;
 }
