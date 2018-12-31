@@ -123,6 +123,69 @@ if (isset($_GET['op'])) {
 
 //        echo $op . ' ' . $db;
     }
+    if (isset($_GET['table'])){
+        $table = sanitize($_GET['table']);
+        $fields = '*';
+        $doPrint = false;
+        $whereStr = $limitStr = " ";
+        if (isset($_GET['fields'])) {
+            $fields = $_GET['fields'];
+        }
+        if (isset($_GET['where'])) {
+            $whereStr = " where " . $_GET['where'];
+        }
+        if (isset($_GET['num'])) {
+            $limitStr = " limit " . " 0" . " , " . $_GET['num'];
+        }
+
+        switch ($op){
+            case 'show' :
+                $sql = "show tables;";
+                $doPrint = true;
+                break;
+            case 'select' :
+                $sql = "select $fields from $table $whereStr $limitStr";
+                $doPrint = true;
+                break;
+            case 'insert' :
+                $num = 1;
+                if (isset($_GET['num'])) {
+                    $num = $_GET['num'];
+                }
+                for ($i = 0; $i < $num; $i++) {
+                    $sql = "insert into $table value (null,'cat " . rand(0, 99) . "')";
+                    $result = $mysqli->query($sql);
+                }
+                echo "<br>$num random categories successfully inserted ...<br>Finished ...";
+                exit(0); // exits the current script
+                break;
+            case 'delete' :
+                $sql = "delete from $table $whereStr";
+                break;
+            case 'drop' :
+                $sql = "drop table $table";
+                break;
+            case 'create' :
+                $sql = "create table tbl" . rand(0, 99) . "(id int)";
+                break;
+            case 'update' :
+                if (isset($_GET['num']) and isset($_GET['field'])) {
+                    $num = intval($_GET['num']);
+                    $field = $_GET['field'];
+                }
+                $sql = "update $table set $field=$field+" . $num . "$whereStr";
+                break;
+            default:
+                echo "<span style='color: red;font-weight: bold'>Invalid Operation ...</span>";
+                exit();
+
+        }
+        echo '<br><span style="color:#dd11cc;font-weight:bold">' . $sql . '</span><br>';
+        $result = $mysqli->query($sql);
+        if ($doPrint)
+            printResultsTable($result);
+        echo "<br>Finished ...";
+    }
 }
 
 $mysqli->close();
