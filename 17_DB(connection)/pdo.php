@@ -1,12 +1,12 @@
-<?php
+<?php // PDO
 
-include_once 'config.php';
-include_once '../common/common.php';
+require_once '../common/common.php';
+require_once 'config.php';
 
-$pdo = new PDO("mysql:host=$dbHost;dbname=$dbName;charset=utf8", $dbUser, $dbPass);
+$db = new PDO("mysql:host=$dbHost;dbname=$dbName;charset=utf8", $dbUser, $dbPass);
 
-$statement = $pdo->prepare("select * from customers where age > ? and name like ? ");
-$statement->execute(array(10, "%mad%"));
+$statement = $db->prepare("select * from customers where age>? and name like ?");
+$statement->execute(array(10,"%mad%"));
+
 $customers = $statement->fetchAll(2);
 myPrintR($customers);
-myPrintR($statement->fetch_fileds());

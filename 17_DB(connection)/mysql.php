@@ -1,8 +1,8 @@
-<?php
+<?php   // Mysql Extention
 
-include_once 'config.php';
+require_once 'config.php';
 
-$link = mysql_connect($dbHost, $dbUser, $dbPass); // return bool
+$link = mysql_connect($dbHost, $dbUser, $dbPass);
 if (!$link) {
     die('Could not connect: ' . mysql_error());
 }
