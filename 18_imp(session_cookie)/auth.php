@@ -32,6 +32,15 @@ function getUser($username, $fields = '*'){
     }
     return false;
 }
+function addCookie($username){
+    $user = getUser($username);
+    $user_id = $user['id'];
+    $db = new PDO("mysql:host=localhost;dbname=7lphp;chaset=utf8", "root", "");
+    $statement = $db->prepare("update * from ");
+//    var_dump( $user['id']);
+    return $user['id'];
+}
+function getCookie(){}
 
 function doLogin($username, $password)
 {

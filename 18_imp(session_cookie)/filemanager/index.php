@@ -187,9 +187,16 @@ if (isLogin()) {
 
 }
 else if( isset($_POST['u']) && isset($_POST['p']) ){
-    if(doLogin($_POST['u'],$_POST['p'])){
+    if ( doLogin($_POST['u'], $_POST['p']) ) {
         // login ok , redirect ...
-        redirectTo("index.php");
+        if (isset($_POST['remember'])) {
+            $result = addCookie($_POST['u']);
+//                arrayNicePrint($result);
+                var_dump($result);
+                var_dump($_POST['remember']);
+        } else {
+            redirectTo("index.php");
+        }
     }
     else{
         // invalid user or pass
@@ -207,13 +214,15 @@ else {
         <input type="submit" name="" value=" login ">
         <br><br>
         <label for="rem">
-            <input type="checkbox" name="remember" id="rem">
+            <input type="checkbox" name="remember" id="rem" value="1">
             remember me
         </label>
 
     </form>
     <?php
 }
+
+//    var_dump($_POST);
 ?>
 
 
