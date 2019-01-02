@@ -77,7 +77,6 @@ if(isset($_GET['logout'])){
     doLogout();
     echo 'Successfully Logged out !';
 }
-
 if (isLogin()) {
     ?>
     <div class="info">
@@ -85,6 +84,7 @@ if (isLogin()) {
         <span> (<a href="?logout=1">Logout</a>)</span>
     </div>
     <?php
+//    e(getCookie()[0]['password'],'b');
 
     function getNiceFileSize($file, $digits = 2)
     {
@@ -190,10 +190,8 @@ else if( isset($_POST['u']) && isset($_POST['p']) ){
     if ( doLogin($_POST['u'], $_POST['p']) ) {
         // login ok , redirect ...
         if (isset($_POST['remember'])) {
-            $result = addCookie($_POST['u']);
-//                arrayNicePrint($result);
-                var_dump($result);
-                var_dump($_POST['remember']);
+            addCookie($_POST['u']);
+            redirectTo("index.php");
         } else {
             redirectTo("index.php");
         }
@@ -201,8 +199,8 @@ else if( isset($_POST['u']) && isset($_POST['p']) ){
     else{
         // invalid user or pass
         ?>
-            <span style="color: #ad1904;font-weight: bold">Invalid Username or Password !</span><br><br>
-            <a href="index.php"> Try Again ! </a>
+        <span style="color: #ad1904;font-weight: bold">Invalid Username or Password !</span><br><br>
+        <a href="index.php"> Try Again ! </a>
         <?php
     }
 }

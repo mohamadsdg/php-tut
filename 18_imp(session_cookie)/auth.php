@@ -32,27 +32,49 @@ function getUser($username, $fields = '*'){
     }
     return false;
 }
+
 function addCookie($username){
+    $now = time();
+    $expireD = $now + 60 * 60 * 24 * 7; // 7 day (a week)
     $user = getUser($username);
     $user_id = $user['id'];
+    $val_cookie = getHash($user_id);
+    setcookie('remember', $val_cookie, $expireD, '/');
     $db = new PDO("mysql:host=localhost;dbname=7lphp;chaset=utf8", "root", "");
-    $statement = $db->prepare("update * from ");
-//    var_dump( $user['id']);
-    return $user['id'];
+    $statement = $db->prepare("update users set remember_token=? where id=?");
+    $statement->execute(array($val_cookie, $user_id));
 }
-function getCookie(){}
+function getCookie(){
+    $val_cookie = $_COOKIE['remember'];
+    $db = new PDO("mysql:host=localhost;dbname=7lphp;chaset=utf8", "root", "");
+    $statement = $db->prepare("select * from users where remember_token=?");
+    $statement->execute(array($val_cookie));
+    $customer = $statement->fetchAll(2);
+    doLogin($customer[0]['username'], $customer[0]['password'], false);
 
-function doLogin($username, $password)
-{
+    return $customer;
+}
+function removeCookie(){
+    $val_cookie = null;
+    $user_id = $_SESSION['user_id'] ;
+    $db = new PDO("mysql:host=localhost;dbname=7lphp;chaset=utf8", "root", "");
+    $statement = $db->prepare("update users set remember_token=? where id=?");
+    $statement->execute(array($val_cookie, $user_id));
+    setcookie("remember", $val_cookie, time()-10,"/"); // value ro delet mikonim
+    unset ($_COOKIE['remember']); // az nazare code ham kar nakhahad kard age unset konim
+}
+
+function doLogin($username, $password, $hasForm = true){
     $user = getUser($username);
+    $transformPass = $hasForm ? getHash($password) : $password;
 
-
-    if ($user and $username == $user['username'] and getHash($password) == $user['password']) {
-
+    if ($user and $username == $user['username'] and $transformPass == $user['password']) {
         $_SESSION['login'] = $username;
         $_SESSION['user'] = $user['display_name'];
         $_SESSION['email'] = $user['email'];
+        $_SESSION['user_id'] = $user['id'];
         $_SESSION['userIP'] = $_SERVER['REMOTE_ADDR'];
+        echo 'set session';
         //$_SESSION['last_action_time'] = time();
 
         return true;
@@ -62,9 +84,16 @@ function doLogin($username, $password)
 }
 function doLogout(){
     unset($_SESSION['login'], $_SESSION['user'], $_SESSION['email'], $_SESSION['last_action_time'], $_SERVER['REMOTE_ADDR']);
+    removeCookie();
     return true;
 }
 
-function isLogin(){
-    return (isset($_SESSION['login'])) ? true : !(true) ;
+function isLogin()
+{
+    return (isset($_SESSION['login'])) ?
+        true :
+        isset($_COOKIE['remember']) ?
+            true
+            :
+            !(true);
 }
