@@ -1,0 +1,1 @@
+<?php wp_list_coments( array( 'callback' => 'twentytwelve_comment', 'style' => 'ol' ) ); ?>
