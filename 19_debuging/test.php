@@ -8,8 +8,7 @@ error_reporting(E_ALL);
 //    ? Unclosed braces
 //    ? Missing semicolon
 
-
-// Fatal Error [stops the execution of the script]
+// Fatal Error [stops the execution of the script] - require has fatal but include has warning
 //	  ? duplicate functions
 //    ? call to undefined functions
 //    ? Incorrect path names when including files. require will produce a fatal error (E_COMPILE_ERROR) if file not exists
